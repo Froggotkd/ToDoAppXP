@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Build-Jdk-Spec: 21
-Implementation-Title: mads-todolist
-Implementation-Version: 1.0.0
+Implementation-Title: epn-todolist-jaramillo-daniel
+Implementation-Version: 1.0.1
 Created-By: Maven Integration for Eclipse
 
