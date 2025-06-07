@@ -92,4 +92,10 @@ public class LoginController {
         managerUserSession.logout();
         return "redirect:/login";
    }
+   
+   @GetMapping("/about")
+   public String about(Model model) {
+       model.addAttribute("titulo", "About");
+       return "about";
+   }
 }
