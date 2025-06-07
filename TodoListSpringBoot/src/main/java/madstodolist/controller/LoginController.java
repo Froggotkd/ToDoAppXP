@@ -46,6 +46,7 @@ public class LoginController {
             UsuarioData usuario = usuarioService.findByEmail(loginData.geteMail());
 
             managerUserSession.logearUsuario(usuario.getId());
+            session.setAttribute("usuario", usuario);
 
             return "redirect:/usuarios/" + usuario.getId() + "/tareas";
         } else if (loginStatus == UsuarioService.LoginStatus.USER_NOT_FOUND) {
