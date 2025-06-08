@@ -51,6 +51,9 @@ public class UsuarioService {
             throw new UsuarioServiceException("El usuario no tiene email");
         else if (usuario.getPassword() == null)
             throw new UsuarioServiceException("El usuario no tiene password");
+        else if (usuario.getEsAdministrador() && usuarioRepository.existsByEsAdministradorTrue()) {
+            throw new UsuarioServiceException("Ya existe un usuario con es administrador");
+        }
         else {
             Usuario usuarioNuevo = modelMapper.map(usuario, Usuario.class);
             usuarioNuevo = usuarioRepository.save(usuarioNuevo);

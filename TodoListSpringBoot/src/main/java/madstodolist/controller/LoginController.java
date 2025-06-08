@@ -30,6 +30,8 @@ public class LoginController {
 
     @Autowired
     ManagerUserSession managerUserSession;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -72,7 +74,7 @@ public class LoginController {
     @GetMapping("/registro")
     public String registroForm(Model model) {
 
-        boolean existeAdmin = UsuarioRepository.existsByEsAdministradorTrue();
+        boolean existeAdmin = usuarioRepository.existsByEsAdministradorTrue();
         model.addAttribute("existeAdmin", existeAdmin);
         model.addAttribute("registroData", new RegistroData());
         return "formRegistro";
@@ -144,7 +146,7 @@ public class LoginController {
    @GetMapping("/admin")
    public boolean existeAdmin(){
        try {
-		return UsuarioRepository.existsByEsAdministradorTrue();
+		return usuarioRepository.existsByEsAdministradorTrue();
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
