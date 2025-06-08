@@ -5,6 +5,7 @@ import madstodolist.dto.LoginData;
 import madstodolist.dto.RegistroData;
 import madstodolist.dto.UsuarioData;
 import madstodolist.model.Usuario;
+import madstodolist.repository.UsuarioRepository;
 import madstodolist.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,8 @@ public class LoginController {
 
     @Autowired
     ManagerUserSession managerUserSession;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -52,8 +55,12 @@ public class LoginController {
 
             managerUserSession.logearUsuario(usuario.getId());
             session.setAttribute("usuario", usuario);
+            
+            if (Boolean.TRUE.equals(usuario.getEsAdministrador()))
+                return "redirect:/registrados";
+            else
+                return "redirect:/usuarios/" + usuario.getId() + "/tareas";
 
-            return "redirect:/usuarios/" + usuario.getId() + "/tareas";
         } else if (loginStatus == UsuarioService.LoginStatus.USER_NOT_FOUND) {
             model.addAttribute("error", "No existe usuario");
             return "formLogin";
@@ -63,9 +70,12 @@ public class LoginController {
         }
         return "formLogin";
     }
-
+    
     @GetMapping("/registro")
     public String registroForm(Model model) {
+
+        boolean existeAdmin = usuarioRepository.existsByEsAdministradorTrue();
+        model.addAttribute("existeAdmin", existeAdmin);
         model.addAttribute("registroData", new RegistroData());
         return "formRegistro";
     }
@@ -88,6 +98,7 @@ public class LoginController {
         usuario.setPassword(registroData.getPassword());
         usuario.setFechaNacimiento(registroData.getFechaNacimiento());
         usuario.setNombre(registroData.getNombre());
+        usuario.setEsAdministrador(registroData.isEsAdministrador());
 
         usuarioService.registrar(usuario);
         return "redirect:/login";
@@ -130,6 +141,17 @@ public class LoginController {
     	}                    
        model.addAttribute("usuario", usuario);
        return "descripcionUsuario";
+   }
+   
+   @GetMapping("/admin")
+   public boolean existeAdmin(){
+       try {
+		return usuarioRepository.existsByEsAdministradorTrue();
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return false;
    }
 
 }

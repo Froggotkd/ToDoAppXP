@@ -24,6 +24,9 @@ public class Usuario implements Serializable {
     @Column(name = "fecha_nacimiento")
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
+    
+    @Column(name = "es_admin", nullable = false)
+    private Boolean esAdministrador;
 
     // La relación es lazy por defecto,
     // es necesario acceder a la lista de tareas para que se carguen
@@ -80,10 +83,20 @@ public class Usuario implements Serializable {
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
+    
+    
 
     // Getters y setters de la relación
 
-    public Set<Tarea> getTareas() {
+    public Boolean getEsAdministrador() {
+		return esAdministrador;
+	}
+
+	public void setEsAdministrador(Boolean esAdministrador) {
+		this.esAdministrador = esAdministrador;
+	}
+
+	public Set<Tarea> getTareas() {
         return tareas;
     }
 

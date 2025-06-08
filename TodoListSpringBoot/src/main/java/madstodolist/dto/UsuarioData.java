@@ -51,11 +51,21 @@ public class UsuarioData {
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
+    
+    
 
     // Sobreescribimos equals y hashCode para que dos usuarios sean iguales
     // si tienen el mismo ID (ignoramos el resto de atributos)
 
-    @Override
+    public Boolean getEsAdministrador() {
+		return esAdministrador;
+	}
+
+	public void setEsAdministrador(Boolean esAdministrador) {
+		this.esAdministrador = esAdministrador;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof UsuarioData)) return false;
