@@ -53,5 +53,15 @@
 			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/User/.m2/repository/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" sourcepath="C:/Users/User/.m2/repository/org/projectlombok/lombok/1.18.38/lombok-1.18.38-sources.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="maven.groupId" value="org.projectlombok"/>
+			<attribute name="maven.artifactId" value="lombok"/>
+			<attribute name="maven.version" value="1.18.38"/>
+			<attribute name="maven.scope" value="compile"/>
+			<attribute name="maven.optionaldependency" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

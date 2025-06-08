@@ -7,4 +7,9 @@ import java.util.Optional;
 
 public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
     Optional<Usuario> findByEmail(String s);
+    
+    static boolean existsByEsAdministradorTrue() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

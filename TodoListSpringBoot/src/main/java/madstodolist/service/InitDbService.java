@@ -27,6 +27,7 @@ public class InitDbService {
         Usuario usuario = new Usuario("user@ua");
         usuario.setNombre("Usuario Ejemplo");
         usuario.setPassword("123");
+        usuario.setEsAdministrador(false);
         usuarioRepository.save(usuario);
 
         Tarea tarea1 = new Tarea(usuario, "Lavar coche");
