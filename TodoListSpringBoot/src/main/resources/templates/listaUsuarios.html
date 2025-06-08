@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Usuarios Registrados</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar .nav-link {
+            text-decoration: none !important;
+            position: relative;
+        }
+        .navbar .nav-link:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    
+    <!-- Incluir navbar si lo tienes -->
+    <div th:replace="navbar :: navbar" th:if="${false}"></div>
+    
+    <div class="row mt-3">
+        <div class="col">
+            <h1 class="display-4">Usuarios Registrados</h1>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="usuario : ${usuarios}">
+                        <td th:text="${usuario.id}"></td>
+                        <td th:text="${usuario.nombre}"></td>
+                        <td th:text="${usuario.email}"></td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

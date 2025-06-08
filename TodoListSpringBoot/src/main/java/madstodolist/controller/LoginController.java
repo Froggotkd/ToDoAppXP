@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.*;
 
 @Controller
 public class LoginController {
@@ -98,5 +99,20 @@ public class LoginController {
    public String about(Model model) {
        model.addAttribute("titulo", "About");
        return "about";
+   }
+   
+   @GetMapping("/registrados")
+   public String usuarioList(Model model, HttpSession session) {
+
+       UsuarioData usuario = (UsuarioData) session.getAttribute("usuario");
+
+       if (usuario == null) {
+           model.addAttribute("error", "Debes iniciar sesión.");
+           return "redirect:/login";
+       }
+
+       List<UsuarioData> usuarios = usuarioService.findAll();
+       model.addAttribute("usuarios", usuarios);
+       return "listaUsuarios";
    }
 }

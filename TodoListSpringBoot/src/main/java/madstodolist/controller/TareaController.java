@@ -62,8 +62,12 @@ public class TareaController {
     public String listadoTareas(@PathVariable(value="id") Long idUsuario, Model model, HttpSession session) {
 
         comprobarUsuarioLogeado(idUsuario);
+        
 
         UsuarioData usuario = usuarioService.findById(idUsuario);
+        if (usuario == null) {
+            return "redirect:/login";
+        }
         List<TareaData> tareas = tareaService.allTareasUsuario(idUsuario);
         model.addAttribute("usuario", usuario);
         model.addAttribute("tareas", tareas);

@@ -11,6 +11,8 @@ public class UsuarioData {
     private String nombre;
     private String password;
     private Date fechaNacimiento;
+    
+    private Boolean esAdministrador;
 
     // Getters y setters
 
