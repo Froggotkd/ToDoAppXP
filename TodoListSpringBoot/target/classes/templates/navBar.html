@@ -47,13 +47,14 @@
                         </ul>
                     </li>
                     
-                    <!-- Usuario no logueado -->
-                    <li class="nav-item" th:unless="${session.usuario != null}">
-                        <a class="nav-link" href="/login">Iniciar sesión</a>
-                    </li>
-                    <li class="nav-item" th:unless="${session.usuario != null}">
-                        <a class="nav-link" href="/registro">Registrarse</a>
-                    </li>
+					<!-- Usuario no logueado -->
+					<li class="nav-item me-2" th:unless="${session.usuario != null}">
+					    <a class="btn btn-outline-light" href="/login">Iniciar sesión</a>
+					</li>
+					<li class="nav-item" th:unless="${session.usuario != null}">
+					    <a class="btn btn-primary" href="/registro">Registrarse</a>
+					</li>
+
                 </ul>
             </div>
         </div>
