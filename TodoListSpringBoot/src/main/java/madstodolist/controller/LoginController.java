@@ -129,7 +129,7 @@ public class LoginController {
     	    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
     	}                    
        model.addAttribute("usuario", usuario);
-       return "descripcion-usuario";
+       return "descripcionUsuario";
    }
 
 }
