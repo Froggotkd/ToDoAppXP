@@ -122,10 +122,15 @@ public class LoginController {
    public String usuarioList(Model model, HttpSession session) {
 
        UsuarioData usuario = (UsuarioData) session.getAttribute("usuario");
-
+       
        if (usuario == null) {
            model.addAttribute("error", "Debes iniciar sesión.");
            return "redirect:/login";
+       }
+       
+       if(!usuario.getEsAdministrador()) {
+    	   model.addAttribute("error","No tienes permiso para acceder");
+    	   return "redirect:/error";
        }
 
        List<UsuarioData> usuarios = usuarioService.findAll();
@@ -134,7 +139,18 @@ public class LoginController {
    }
    
    @GetMapping("/registrados/{id}")
-   public String verUsuario(@PathVariable Long id, Model model) {
+   public String verUsuario(@PathVariable Long id, Model model, HttpSession session) {
+	   UsuarioData usuarioRegistrado = (UsuarioData) session.getAttribute("usuario");
+	   if (usuarioRegistrado == null) {
+           model.addAttribute("error", "Debes iniciar sesión.");
+           return "redirect:/login";
+       }
+       
+       if(!usuarioRegistrado.getEsAdministrador()) {
+    	   model.addAttribute("error","No tienes permiso para acceder");
+    	   return "redirect:/error";
+       }
+       
        UsuarioData usuario = usuarioService.findById(id);
        if (usuario == null) {
     	    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
