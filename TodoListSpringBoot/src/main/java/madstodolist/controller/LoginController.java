@@ -67,6 +67,9 @@ public class LoginController {
         } else if (loginStatus == UsuarioService.LoginStatus.ERROR_PASSWORD) {
             model.addAttribute("error", "Contraseña incorrecta");
             return "formLogin";
+        }else if (loginStatus == UsuarioService.LoginStatus.USER_BLOCKED) {
+            model.addAttribute("error", "Tu cuenta está bloqueada. Contacta al administrador.");
+            return "login";
         }
         return "formLogin";
     }
@@ -112,6 +115,18 @@ public class LoginController {
         return "redirect:/login";
    }
    
+   @PostMapping("/usuarios/{id}/bloqueo")
+   public String toggleBloqueo(@PathVariable Long id, HttpSession session) {
+       UsuarioData admin = (UsuarioData) session.getAttribute("usuario");
+       if (admin == null || !Boolean.TRUE.equals(admin.getEsAdministrador())) {
+           throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No autorizado.");
+       }
+
+       usuarioService.Bloqueo(id);
+
+       return "redirect:/registrados";
+   }
+   
    @GetMapping("/about")
    public String about(Model model) {
        model.addAttribute("titulo", "About");
@@ -122,21 +137,25 @@ public class LoginController {
    public String usuarioList(Model model, HttpSession session) {
 
        UsuarioData usuario = (UsuarioData) session.getAttribute("usuario");
-       
+
        if (usuario == null) {
            model.addAttribute("error", "Debes iniciar sesión.");
            return "redirect:/login";
        }
-       
-       if(!usuario.getEsAdministrador()) {
-    	   model.addAttribute("error","No tienes permiso para acceder");
-    	   return "redirect:/error";
-       }
 
+       System.out.println("Usuario logueado: " + usuario.getEmail());
+       System.out.println("¿Es administrador? -> " + usuario.getEsAdministrador());
+
+       if (!Boolean.TRUE.equals(usuario.getEsAdministrador())) {
+           model.addAttribute("error", "No tienes permiso para acceder.");
+           return "redirect:/error";
+       }
+      
        List<UsuarioData> usuarios = usuarioService.findAll();
        model.addAttribute("usuarios", usuarios);
        return "listaUsuarios";
    }
+
    
    @GetMapping("/registrados/{id}")
    public String verUsuario(@PathVariable Long id, Model model, HttpSession session) {
@@ -146,11 +165,11 @@ public class LoginController {
            return "redirect:/login";
        }
        
-       if(!usuarioRegistrado.getEsAdministrador()) {
-    	   model.addAttribute("error","No tienes permiso para acceder");
-    	   return "redirect:/error";
-       }
-       
+	   if (!Boolean.TRUE.equals(usuarioRegistrado.getEsAdministrador())) {
+		    model.addAttribute("error", "No tienes permiso para acceder.");
+		    return "redirect:/error";
+		}
+
        UsuarioData usuario = usuarioService.findById(id);
        if (usuario == null) {
     	    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
