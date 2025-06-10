@@ -21,9 +21,11 @@ public class Usuario implements Serializable {
     private String email;
     private String nombre;
     private String password;
+    private Boolean bloqueado = false;
     @Column(name = "fecha_nacimiento")
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
+    
     
     @Column(name = "es_admin", nullable = false)
     private Boolean esAdministrador;
@@ -44,7 +46,15 @@ public class Usuario implements Serializable {
 
     // Getters y setters atributos básicos
 
-    public Long getId() {
+    public Boolean getBloqueado() {
+		return bloqueado;
+	}
+
+	public void setBloqueado(Boolean bloqueado) {
+		this.bloqueado = bloqueado;
+	}
+
+	public Long getId() {
         return id;
     }
 

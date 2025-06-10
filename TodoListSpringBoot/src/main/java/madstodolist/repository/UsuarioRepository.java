@@ -9,4 +9,5 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
     Optional<Usuario> findByEmail(String s);
 
     boolean existsByEsAdministradorTrue(); 
+    boolean existsByEmail(String email);
 }
