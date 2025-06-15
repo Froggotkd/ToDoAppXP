@@ -1,16 +1,163 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="head (titulo)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${titulo}">App</title>
 
-<head th:fragment="head (titulo)">
-    <meta charset="UTF-8"/>
-    <title th:text="${titulo}"></title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!-- Librerías comunes -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-p8fS9rA6bJIZoV1..."
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+
+    <!-- Estilos personalizados -->
+    <style>
+        /* ===== LOGIN ===== */
+        body.login-page {
+            background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            padding: 2rem;
+            max-width: 380px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.2), transparent 70%);
+            pointer-events: none;
+            animation: rotateBG 10s linear infinite;
+            z-index: 0;
+        }
+        @keyframes rotateBG { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .login-card form { position: relative; z-index: 1; }
+        .icon-input { position: relative; }
+        .icon-input i {
+            position: absolute; top:50%; left:1rem;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.7);
+        }
+        .icon-input input {
+            padding-left: 2.5rem;
+            color: #fff;
+        }
+        .form-control.bg-transparent {
+            background: transparent !important;
+            border: 0 !important;
+            border-bottom: 1px solid rgba(255,255,255,0.6) !important;
+        }
+        .form-control::placeholder { color: rgba(255,255,255,0.7); }
+        .login-btn {
+            background: #ff4081; border: none;
+            transition: background 0.3s;
+        }
+        .login-btn:hover { background: #f50057; }
+
+        /* ===== REGISTRO ===== */
+        body.register-page { background: #f0f4f8; }
+        .register-card {
+            max-width: 500px; margin: 3rem auto; padding: 2rem;
+            background: #fff; border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .step-indicator {
+            display: flex; justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+        .step {
+            text-align: center; width: 100%; position: relative;
+        }
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute; top:50%; right:0;
+            width:100%; height:2px; background:#ddd;
+            transform: translateX(50%);
+        }
+        .step .circle {
+            width: 2rem; height: 2rem; margin:0 auto .5rem;
+            border-radius:50%; background:#ddd; color:#fff;
+            display:flex; align-items:center; justify-content:center;
+        }
+        .step.active .circle { background: #28a745; }
+        .register-btn {
+            background: #28a745; border: none;
+        }
+        .register-btn:hover { background: #218838; }
+
+        /* ===== TAREAS ===== */
+        body.tasks-page { background: #e9ecef; }
+        .task-container { max-width: 900px; margin: 2rem auto; }
+        .task-card {
+            background: #fff; border-radius: .75rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 1rem; transition: transform .2s;
+        }
+        .task-card:hover { transform: translateY(-2px); }
+        .task-header {
+            padding:1rem 1.5rem;
+            background: linear-gradient(90deg, #42a5f5, #478ed1);
+            color: #fff;
+            display:flex; justify-content:space-between; align-items:center;
+            border-top-left-radius: .75rem;
+            border-top-right-radius: .75rem;
+        }
+        .badge-id { background: rgba(255,255,255,0.3); }
+        .task-body { padding:1rem 1.5rem; }
+        .btn-new {
+            background: #42a5f5; color: #fff; border: none;
+        }
+        .btn-new:hover { background: #1e88e5; }
+
+		/* ===== FORMULARIO TAREA ===== */
+		       body.new-task-page, body.edit-task-page {
+		           background: #e9ecef;
+		           display: flex;
+		           align-items: center;
+		           justify-content: center;
+		           min-height: 100vh;
+		           padding: 1rem;
+		       }
+		       .task-form-card {
+		           background: #fff;
+		           border-radius: .75rem;
+		           box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+		           max-width: 500px;
+		           width: 100%;
+		           padding: 2rem;
+		       }
+		       .task-form-card h2 {
+		           margin-bottom: 1.5rem;
+		           color: #333;
+		           font-weight: 600;
+		       }
+		       .task-form-card .form-group label {
+		           font-weight: 500;
+		       }
+		       .task-form-card .btn-primary {
+		           background: #42a5f5;
+		           border: none;
+		       }
+		       .task-form-card .btn-primary:hover {
+		           background: #1e88e5;
+		       }
+		       .task-form-card .btn-link {
+		           color: #777;
+		       }
+    </style>
 </head>
-
-<div th:fragment="javascript">
-    <script th:src="@{/js/jquery.min.js}"></script>
-    <script th:src="@{/js/popper.min.js}"></script>
-    <script th:src="@{/js/bootstrap.min.js}"></script>
-</div>
-
 </html>
